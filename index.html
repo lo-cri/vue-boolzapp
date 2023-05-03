@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="It">
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script src="js/script.js" async></script>
+    <title>Vue Boolzapp</title>
+    </head>
+
+    <body>
+        <div id="containerVue">
+            <div class="upper-bg"></div>
+            <div class="bottom-bg"></div>
+            <div class="whatsappWeb-window">
+                <aside>
+                    <nav class="nav-aside">
+
+                        <div class="user">
+                            <img class="user-pic" src="img/avatar_io.jpg" alt="">
+                            <h5 class="user-name">Nome Utente</h5>
+                            <a href="nav-user"> <i class="fas fa-circle-notch"></i> </a>
+                            <a href="nav-user"> <i class="fas fa-comment-alt"></i> </a>
+                            <a href="nav-user"> <i class="fas fa-ellipsis-v"></i> </a>
+                        </div>
+
+                        <div class="reminder-banner">
+                            <div class="notify-opts">
+                                <i class="fas fa-bell-slash"></i>
+                            </div>
+                            <div class="notify-texts">
+                                <h5 class="info-notif" >Ricevi Notifiche di nuovi messaggi</h5>
+                                <small> <a class="toggle-notif" href=""> Attiva notifiche desktop </a> </small>
+                            </div>
+                        </div>
+
+                        <div class="search-aside">
+                            <div class="search-aside-contacts">
+                                <button class="search"> <i class="far fa-search"></i> </button>
+                                <input @keyup.enter="filterContacts"
+                                v-model="contactSearched"
+                                class="input-search" type="text" placeholder="Cerca o inizia una nuova chat">
+                            </div>
+                        </div>
+                    </nav>
+
+                    <div class="list-contacts-container">
+                        <ul class="list-contacts">
+
+                            <!-- TEMPLATE Contacts -->
+                            <li @click="changeContact(index)" v-if="contact.visible == true" v-for="(contact, index) in contacts" class="contact-list" :class="isActive(index)">
+                                <img :src="`img/avatar${contact.avatar}.jpg`" class="contact-img" alt="">
+                                <div class="name-and-preview">
+                                    <h5 class="name-contact" > {{ contact.name }} </h5>
+                                    <small class="preview-msg"> last message </small>
+                                </div>
+                                <small class="date"> {{ contact.messages[0].date }} </small>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
+
+                <main>
+                    <div class="contact-active-window">
+                        <div class="contact-active">
+                            <img class="img-active" :src="`img/avatar${contacts[counter].avatar}.jpg`" alt="">
+                            <div class="name-and-lastSeen">
+                                <h5> {{contacts[counter].name}} </h5>
+                                <small class="date-seen"> Ultimo accesso alle {{ contacts[counter].messages[2].date }}</small>
+                            </div>
+                        </div>
+
+                        <div class="nav-contact">
+                            <a href="nav-user"> <i class="fas fa-search margin"></i> </a>
+                            <a href="nav-user"> <i class="fas fa-paperclip margin"></i> </a>
+                            <a href="nav-user"> <i class="fas fa-ellipsis-v margin"></i> </a>
+                        </div>
+                    </div>
+                    <div class="texts-area">
+                        <div v-for="(message, i) in contacts[counter].messages" class="message" :class="(message.status == 'sent') ? 'sent' : 'received'">
+                            {{ message.text }}
+                            <small class="text-date"> {{ message.date }} </small>
+                            <div class="dropdown">
+                                <button @click="myFunction" class="dropbtn"><i class="far fa-chevron-down"></i></button>
+                                <div id="myDropdown" class="dropdown-content">
+                                  <a href="#home">Delete</a>
+                                  <a href="#about">Info</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="new-texts-area">
+                        <i class="far fa-smile"></i>
+                        
+                        <input @keyup.enter="newMessage" v-model="messageWrote" class="write-a-message" type="text" placeholder="Scrivi un messaggio">
+
+                        <i class="fas fa-microphone"></i>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </body>
+</html>
